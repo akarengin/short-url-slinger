@@ -58,7 +58,5 @@ This project is built with:
 
 This project is deployed on AWS and Netlify!
 
-- **AWS deployment:** [https://your-aws-site-url.com](https://your-aws-site-url.com)
-- **Netlify deployment:** [https://your-netlify-site.netlify.app](https://your-netlify-site.netlify.app)
-
-If you'd like to update these links, let me know the correct URLs for your deployments.
+- **AWS deployment:** [https://www.urlcutlabs.site/](https://www.urlcutlabs.site/)
+- **Netlify deployment:** [https://short-url-slinger.netlify.app/](https://short-url-slinger.netlify.app/)
