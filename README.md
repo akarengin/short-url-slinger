@@ -1,4 +1,4 @@
-# Welcome to your Lovable project
+# Welcome to your project
 
 ## Project info
 
@@ -56,16 +56,9 @@ This project is built with:
 
 ## How can I deploy this project?
 
-This project is deployed on Lovable, AWS, and Netlify!
+This project is deployed on AWS and Netlify!
 
-- Use Lovable for an easy, prompt-based deployment experience.
-- You can also deploy to AWS for scalable cloud hosting.
-- Netlify provides fast and simple static site deployment with continuous integration.
+- **AWS deployment:** [https://your-aws-site-url.com](https://your-aws-site-url.com)
+- **Netlify deployment:** [https://your-netlify-site.netlify.app](https://your-netlify-site.netlify.app)
 
-## Can I connect a custom domain to my Lovable project?
-
-Yes, you can!
-
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
+If you'd like to update these links, let me know the correct URLs for your deployments.
