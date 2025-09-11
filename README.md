@@ -8,15 +8,9 @@
 
 There are several ways of editing your application.
 
-**Use Lovable**
-
-Simply visit the [Lovable Project](https://lovable.dev/projects/d4d1f0de-0245-4c9a-8314-6416e23bfa0c) and start prompting.
-
-Changes made via Lovable will be committed automatically to this repo.
-
 **Use your preferred IDE**
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+If you want to work locally using your own IDE, you can clone this repo and push changes.
 
 The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
 
@@ -62,7 +56,11 @@ This project is built with:
 
 ## How can I deploy this project?
 
-Simply open [Lovable](https://lovable.dev/projects/d4d1f0de-0245-4c9a-8314-6416e23bfa0c) and click on Share -> Publish.
+This project is deployed on Lovable, AWS, and Netlify!
+
+- Use Lovable for an easy, prompt-based deployment experience.
+- You can also deploy to AWS for scalable cloud hosting.
+- Netlify provides fast and simple static site deployment with continuous integration.
 
 ## Can I connect a custom domain to my Lovable project?
 
