@@ -1,0 +1,32 @@
+version: 0.2
+phases:
+  install:
+    runtime-versions:
+      nodejs: 22
+    commands:
+      - echo "Installing dependencies..."
+      - npm install
+  pre_build:
+    commands:
+      - echo "Running pre-build commands..."
+      - echo "Node version:" && node --version
+      - echo "NPM version:" && npm --version
+  build:
+    commands:
+      - echo "Building React application..."
+      - npm run build
+      - echo "Build completed successfully"
+      - echo "Listing build output:"
+      - ls -la dist/
+  post_build:
+    commands:
+      - echo "Build finished on `date`"
+      - echo "Preparing artifacts..."
+artifacts:
+  files:
+    - '**/*'
+  base-directory: dist  # Change to 'build' if your React app outputs to 'build' folder
+  name: spa-build-$(date +%Y-%m-%d-%H-%M-%S)
+cache:
+  paths:
+    - node_modules/**/*
