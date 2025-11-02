@@ -1,4 +1,4 @@
-# Welcome to your project
+# Short-Url-Slinger
 
 [![WIP](https://img.shields.io/badge/status-WIP-yellow)](https://github.com/akarengin/short-url-slinger)
 
