@@ -2,11 +2,9 @@
 
 [![WIP](https://img.shields.io/badge/status-WIP-yellow)](https://github.com/akarengin/short-url-slinger)
 
-Status: WIP — actively developed; API and behavior may change.
-
 ## Project info
 
-**URL**: https://lovable.dev/projects/d4d1f0de-0245-4c9a-8314-6416e23bfa0c
+This repository implements a URL shortening service that creates and manages short links for long URLs. Features include creating short aliases, redirect handling, basic analytics for clicks, and a simple admin interface to manage links. The implementation uses a TypeScript React frontend and an API backend.
 
 ## How can I edit this code?
 
