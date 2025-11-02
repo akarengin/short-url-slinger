@@ -1,5 +1,9 @@
 # Welcome to your project
 
+[![WIP](https://img.shields.io/badge/status-WIP-yellow)](https://github.com/akarengin/short-url-slinger)
+
+Status: WIP — actively developed; API and behavior may change.
+
 ## Project info
 
 **URL**: https://lovable.dev/projects/d4d1f0de-0245-4c9a-8314-6416e23bfa0c
