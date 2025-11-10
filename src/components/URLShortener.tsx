@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { generateShortCode } from '../shared/generateShortCode';
 import { useToast } from "@/hooks/use-toast";
 import { Copy, ExternalLink, QrCode, BarChart3, Link2, Zap } from "lucide-react";
 
@@ -30,15 +31,6 @@ export const URLShortener = () => {
     } catch (_) {
       return false;
     }
-  };
-
-  const generateShortCode = (length: number = 6) => {
-    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-    let result = '';
-    for (let i = 0; i < length; i++) {
-      result += characters.charAt(Math.floor(Math.random() * characters.length));
-    }
-    return result;
   };
 
   const handleShorten = async () => {
