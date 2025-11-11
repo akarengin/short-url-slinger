@@ -12,6 +12,12 @@ dist
 dist-ssr
 *.local
 
+# Environment variables
+# Never commit .env files as they may contain secrets
+.env
+.env.*
+!.env.example
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
@@ -22,3 +28,7 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Serverless / AWS
+.serverless/
+.aws-sam/
