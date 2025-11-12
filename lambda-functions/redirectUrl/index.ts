@@ -1,4 +1,4 @@
-import { ddbClient } from "@shared/dynamodbClient";
+import { ddbClient } from "../shared/dynamodbClient";
 import { GetItemCommand, UpdateItemCommand } from "@aws-sdk/client-dynamodb";
 import { APIGatewayProxyEvent, APIGatewayProxyResult } from "aws-lambda";
 

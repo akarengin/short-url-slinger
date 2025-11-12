@@ -1,5 +1,5 @@
-import { ddbClient } from "@shared/dynamodbClient";
-import { generateShortCode } from "@shared/generateShortCode";
+import { ddbClient } from "../shared/dynamodbClient";
+import { generateShortCode } from "../shared/generateShortCode";
 import { PutItemCommand } from "@aws-sdk/client-dynamodb";
 import { APIGatewayProxyEvent, APIGatewayProxyResult } from 'aws-lambda';
 

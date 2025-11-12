@@ -1,0 +1,88 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: >
+  LOCAL DEVELOPMENT ONLY: A consolidated template for running the application locally
+  with 'sam local start-api'. This file is NOT for production deployment.
+
+Parameters:
+  ShortUrlDomain:
+    Type: String
+    Description: The custom domain for the shortened URLs (e.g., short.ly).
+    Default: "localhost:3000" # A sensible default for local testing
+
+Resources:
+  # Resource from dynamodb.yml
+  UrlMappingsTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: UrlMappings
+      AttributeDefinitions:
+        - AttributeName: "shortCode"
+          AttributeType: "S"
+      KeySchema:
+        - AttributeName: "shortCode"
+          KeyType: "HASH"
+      BillingMode: PAY_PER_REQUEST
+
+  # Resource from api-gateway.yml
+  ShortUrlApi:
+    Type: AWS::Serverless::Api
+    Properties:
+      Name: ShortUrlApi
+      StageName: Prod
+      Cors:
+        AllowMethods: "'POST, GET, OPTIONS'"
+        AllowHeaders: "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'"
+        AllowOrigin: "'*'"
+
+  # Resources from lambda-functions.yml, with references fixed
+  CreateShortUrlFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: createShortUrl
+      CodeUri: ../lambda-functions/
+      Handler: dist/createShortUrl/index.handler
+      Runtime: nodejs20.x
+      Architectures:
+        - x86_64
+      MemorySize: 128
+      Timeout: 10
+      Environment:
+        Variables:
+          URL_MAPPINGS_TABLE: !Ref UrlMappingsTable # Directly reference the table
+          SHORT_URL_DOMAIN: !Ref ShortUrlDomain
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: !Ref UrlMappingsTable
+      Events:
+        CreateShortUrlApiEvent:
+          Type: Api
+          Properties:
+            Path: /create
+            Method: post
+            RestApiId: !Ref ShortUrlApi # Directly reference the API
+
+  RedirectUrlFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: redirectUrl
+      CodeUri: ../lambda-functions/
+      Handler: dist/redirectUrl/index.handler
+      Runtime: nodejs20.x
+      Architectures:
+        - x86_64
+      MemorySize: 128
+      Timeout: 10
+      Environment:
+        Variables:
+          URL_MAPPINGS_TABLE: !Ref UrlMappingsTable # Directly reference the table
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: !Ref UrlMappingsTable
+      Events:
+        RedirectUrlApiEvent:
+          Type: Api
+          Properties:
+            Path: /{shortCode}
+            Method: get
+            RestApiId: !Ref ShortUrlApi # Directly reference the API
