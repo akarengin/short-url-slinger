@@ -84,10 +84,11 @@ const createAndSaveLink = async (longUrl: string, shortCode: string): Promise<AP
   await ddbClient.send(new PutItemCommand(params));
 
   // If it does not throw, the operation was successful.
+  const protocol = process.env.AWS_SAM_LOCAL ? "http" : "https";
   return {
     statusCode: 200,
     body: JSON.stringify({
-      shortUrl: `https://${SHORT_URL_DOMAIN}/${shortCode}`,
+      shortUrl: `${protocol}://${SHORT_URL_DOMAIN}/${shortCode}`,
       shortCode,
     }),
   };
