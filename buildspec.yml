@@ -23,9 +23,10 @@ phases:
   post_build:
     commands:
       - echo "Build finished on `date`"
-      # If you use AWS SAM or CloudFormation, you can package your application here.
-      # For example, using AWS SAM:
-      # - sam package --template-file infrastructure/template.yml --s3-bucket your-artifact-bucket-name --output-template-file packaged-template.yml
+      - echo "Packaging SAM application..."
+      - sam package --template-file infrastructure/template.yml --s3-bucket $ARTIFACT_BUCKET --output-template-file packaged-template.yml
+      - echo "Syncing frontend to S3..."
+      - aws s3 sync dist/ s3://$FRONTEND_BUCKET/ --delete
 
 artifacts:
   files:
@@ -35,8 +36,8 @@ artifacts:
     - 'lambda-functions/dist/**/*'
     # Infrastructure as Code templates
     - 'infrastructure/**/*'
-    # Packaged template file if you are using one
-    # - packaged-template.yml
+    # Packaged template file
+    - packaged-template.yml
   base-directory: . # Set base-directory to root to include all artifacts
   name: short-url-slinger-build-$(date +%Y-%m-%d-%H-%M-%S)
 
