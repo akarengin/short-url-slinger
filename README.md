@@ -1,22 +1,18 @@
-# Welcome to your Lovable project
+# Short-Url-Slinger
+
+[![WIP](https://img.shields.io/badge/status-WIP-yellow)](https://github.com/akarengin/short-url-slinger)
 
 ## Project info
 
-**URL**: https://lovable.dev/projects/d4d1f0de-0245-4c9a-8314-6416e23bfa0c
+This repository implements a URL shortening service that creates and manages short links for long URLs. Features include creating short aliases, redirect handling, basic analytics for clicks, and a simple admin interface to manage links. The implementation uses a TypeScript React frontend and an API backend.
 
 ## How can I edit this code?
 
 There are several ways of editing your application.
 
-**Use Lovable**
-
-Simply visit the [Lovable Project](https://lovable.dev/projects/d4d1f0de-0245-4c9a-8314-6416e23bfa0c) and start prompting.
-
-Changes made via Lovable will be committed automatically to this repo.
-
 **Use your preferred IDE**
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+If you want to work locally using your own IDE, you can clone this repo and push changes.
 
 The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
 
@@ -62,12 +58,7 @@ This project is built with:
 
 ## How can I deploy this project?
 
-Simply open [Lovable](https://lovable.dev/projects/d4d1f0de-0245-4c9a-8314-6416e23bfa0c) and click on Share -> Publish.
+This project is deployed on AWS and Netlify!
 
-## Can I connect a custom domain to my Lovable project?
-
-Yes, you can!
-
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
+- **AWS deployment:** [https://www.urlcutlabs.site/](https://www.urlcutlabs.site/)
+- **Netlify deployment:** [https://short-url-slinger.netlify.app/](https://short-url-slinger.netlify.app/)
