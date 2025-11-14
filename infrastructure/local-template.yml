@@ -49,7 +49,7 @@ Resources:
       Timeout: 10
       Environment:
         Variables:
-          URL_MAPPINGS_TABLE: UrlMappings
+          URL_MAPPINGS_TABLE: !GetAtt UrlMappingsTable.TableName
           SHORT_URL_DOMAIN: !Ref ShortUrlDomain
           AWS_SAM_LOCAL: "true"
       Policies:
@@ -76,7 +76,7 @@ Resources:
       Timeout: 10
       Environment:
         Variables:
-          URL_MAPPINGS_TABLE: UrlMappings
+          URL_MAPPINGS_TABLE: !GetAtt UrlMappingsTable.TableName
           AWS_SAM_LOCAL: "true"
       Policies:
         - DynamoDBCrudPolicy:
