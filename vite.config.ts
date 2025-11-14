@@ -9,9 +9,15 @@ export default defineConfig(({ mode }) => ({
   server: {
     host: "::",
     port: 8080,
-    https: {
-      key: fs.readFileSync('./localhost-key.pem'),
-      cert: fs.readFileSync('./localhost-cert.pem'),
+    // This proxy configuration is essential for local development.
+    // It forwards any request starting with '/api' from the frontend dev server
+    // to the local backend server running on port 3000.
+    proxy: {
+      '/api': {
+        target: 'http://127.0.0.1:3000',
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/api/, ''),
+      },
     },
   },
   plugins: [

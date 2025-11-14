@@ -1,0 +1,17 @@
+{
+    "name": "lambda-functions",
+    "version": "1.0.0",
+    "description": "Backend Lambda functions for short-url-slinger",
+    "main": "dist/index.js",
+    "scripts": {
+        "build": "tsc"
+    },
+    "dependencies": {
+        "@aws-sdk/client-dynamodb": "^3.585.0",
+        "@types/aws-lambda": "^8.10.138"
+    },
+    "devDependencies": {
+        "typescript": "^5.0.0",
+        "@types/node": "^20.0.0"
+    }
+}
