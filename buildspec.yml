@@ -4,29 +4,44 @@ phases:
     runtime-versions:
       nodejs: 22
     commands:
-      - echo "Installing dependencies..."
+      - echo "Installing frontend dependencies..."
       - npm install
+      - echo "Installing backend dependencies..."
+      - (cd lambda-functions && npm install)
+
   pre_build:
     commands:
       - echo "Running pre-build commands..."
-      - echo "Node version:" && node --version
-      - echo "NPM version:" && npm --version
+
   build:
     commands:
       - echo "Building React application..."
       - npm run build
-      - echo "Build completed successfully"
-      - echo "Listing build output:"
-      - ls -la dist/
+      - echo "Building backend..."
+      - (cd lambda-functions && npm run build)
+
   post_build:
     commands:
       - echo "Build finished on `date`"
-      - echo "Preparing artifacts..."
+      - echo "Packaging SAM application..."
+      - sam package --template-file infrastructure/template.yml --s3-bucket $ARTIFACT_BUCKET --output-template-file packaged-template.yml
+      - echo "Syncing frontend to S3..."
+      - aws s3 sync dist/ s3://$FRONTEND_BUCKET/ --delete
+
 artifacts:
   files:
-    - '**/*'
-  base-directory: dist  # Change to 'build' if your React app outputs to 'build' folder
-  name: spa-build-$(date +%Y-%m-%d-%H-%M-%S)
+    # Frontend application
+    - 'dist/**/*'
+    # Backend Lambda functions (adjust the path to your compiled code)
+    - 'lambda-functions/dist/**/*'
+    # Infrastructure as Code templates
+    - 'infrastructure/**/*'
+    # Packaged template file
+    - packaged-template.yml
+  base-directory: .
+
 cache:
   paths:
     - node_modules/**/*
+    # Add path to backend node_modules to cache them as well
+    - lambda-functions/node_modules/**/*

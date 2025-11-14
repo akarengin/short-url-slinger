@@ -5,6 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { useToast } from "@/hooks/use-toast";
 import { Copy, ExternalLink, QrCode, BarChart3, Link2, Zap } from "lucide-react";
+import { useMutation } from "@tanstack/react-query";
 
 interface ShortenedURL {
   id: string;
@@ -16,12 +17,61 @@ interface ShortenedURL {
   createdAt: Date;
 }
 
+// Define the mutation function outside the component
+const shortenUrlApi = async ({ longUrl, customAlias }: { longUrl: string; customAlias?: string }) => {
+  const apiUrl = import.meta.env.VITE_API_URL || '/api';
+  const response = await fetch(`${apiUrl}/create`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ longUrl, customAlias }),
+  });
+
+  if (!response.ok) {
+    const errorData = await response.json();
+    throw new Error(errorData.error || 'Failed to shorten URL');
+  }
+
+  return response.json();
+};
+
 export const URLShortener = () => {
   const [url, setUrl] = useState("");
   const [customAlias, setCustomAlias] = useState("");
   const [shortenedUrls, setShortenedUrls] = useState<ShortenedURL[]>([]);
-  const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
+
+  const { mutate: createShortUrl, isPending } = useMutation({
+    mutationFn: shortenUrlApi,
+    onSuccess: (data) => {
+      const newShortenedUrl: ShortenedURL = {
+        id: data.shortCode,
+        originalUrl: url,
+        shortUrl: data.shortUrl,
+        shortCode: data.shortCode,
+        customAlias: customAlias || undefined,
+        clicks: 0,
+        createdAt: new Date(),
+      };
+
+      setShortenedUrls(prev => [newShortenedUrl, ...prev]);
+      setUrl("");
+      setCustomAlias("");
+
+      toast({
+        title: "URL Shortened Successfully!",
+        description: "Your short URL is ready to use",
+      });
+    },
+    onError: (error) => {
+      toast({
+        title: "An Error Occurred",
+        description: error.message || "Could not connect to the server.",
+        variant: "destructive",
+      });
+    },
+  });
 
   const isValidUrl = (string: string) => {
     try {
@@ -32,16 +82,7 @@ export const URLShortener = () => {
     }
   };
 
-  const generateShortCode = (length: number = 6) => {
-    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-    let result = '';
-    for (let i = 0; i < length; i++) {
-      result += characters.charAt(Math.floor(Math.random() * characters.length));
-    }
-    return result;
-  };
-
-  const handleShorten = async () => {
+  const handleShorten = () => {
     if (!url.trim()) {
       toast({
         title: "URL Required",
@@ -60,33 +101,7 @@ export const URLShortener = () => {
       return;
     }
 
-    setIsLoading(true);
-    
-    // Simulate API call
-    await new Promise(resolve => setTimeout(resolve, 1000));
-
-    const shortCode = customAlias || generateShortCode();
-    const shortUrl = `https://short.ly/${shortCode}`;
-    
-    const newShortenedUrl: ShortenedURL = {
-      id: Math.random().toString(36).substr(2, 9),
-      originalUrl: url,
-      shortUrl,
-      shortCode,
-      customAlias: customAlias || undefined,
-      clicks: 0,
-      createdAt: new Date(),
-    };
-
-    setShortenedUrls(prev => [newShortenedUrl, ...prev]);
-    setUrl("");
-    setCustomAlias("");
-    setIsLoading(false);
-
-    toast({
-      title: "URL Shortened Successfully!",
-      description: "Your short URL is ready to use",
-    });
+    createShortUrl({ longUrl: url, customAlias });
   };
 
   const copyToClipboard = async (text: string) => {
@@ -161,10 +176,10 @@ export const URLShortener = () => {
               />
               <Button 
                 onClick={handleShorten}
-                disabled={isLoading}
+                disabled={isPending}
                 className="bg-gradient-primary hover:bg-gradient-accent transition-all duration-300 shadow-glow"
               >
-                {isLoading ? "Shortening..." : "Shorten URL"}
+                {isPending ? "Shortening..." : "Shorten URL"}
               </Button>
             </div>
             <p className="text-sm text-muted-foreground">

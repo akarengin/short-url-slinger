@@ -1,0 +1,26 @@
+# This file defines the DynamoDB table for storing URL mappings.
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: >
+  DynamoDB table for the short-url-slinger application.
+
+Resources:
+  # This is the DynamoDB table that will store the URL mappings.
+  UrlMappingsTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: UrlMappings
+      # The primary key is the 'shortCode', which allows for fast lookups.
+      AttributeDefinitions:
+        - AttributeName: "shortCode"
+          AttributeType: "S" # S stands for String
+      KeySchema:
+        - AttributeName: "shortCode"
+          KeyType: "HASH" # HASH means this is the partition key
+      # This setting is cost-effective for development and scales on-demand.
+      BillingMode: PAY_PER_REQUEST
+
+Outputs:
+  UrlMappingsTableName:
+    Description: "The name of the DynamoDB table for URL mappings"
+    Value: !Ref UrlMappingsTable

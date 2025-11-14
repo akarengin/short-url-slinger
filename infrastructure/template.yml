@@ -1,0 +1,42 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: >
+  Main stack for the short-url-slinger application.
+  This stack orchestrates the deployment of all the application's resources
+  by using nested stacks.
+
+Parameters:
+  ShortUrlDomain:
+    Type: String
+    Description: The custom domain for the shortened URLs (e.g., short.ly).
+    Default: "short.ly"
+
+Resources:
+  # This nested stack creates the DynamoDB table.
+  DynamoDbStack:
+    Type: AWS::CloudFormation::Stack
+    Properties:
+      TemplateURL: ./dynamodb.yml
+
+  # This nested stack creates the API Gateway.
+  ApiGatewayStack:
+    Type: AWS::CloudFormation::Stack
+    Properties:
+      TemplateURL: ./api-gateway.yml
+
+  # This nested stack creates the Lambda functions and their API triggers.
+  LambdaFunctionsStack:
+    Type: AWS::CloudFormation::Stack
+    Properties:
+      TemplateURL: ./lambda-functions.yml
+      Parameters:
+        # We pass the table name from the DynamoDB stack to the Lambda stack.
+        UrlMappingsTableName: !GetAtt DynamoDbStack.Outputs.UrlMappingsTableName
+        ShortUrlDomain: !Ref ShortUrlDomain
+        # This is the new wiring: connect the ApiId output to the ShortUrlApiId input.
+        ShortUrlApiId: !GetAtt ApiGatewayStack.Outputs.ApiId
+
+Outputs:
+  ApiEndpoint:
+    Description: "API Gateway endpoint URL"
+    Value: !GetAtt ApiGatewayStack.Outputs.ApiEndpoint

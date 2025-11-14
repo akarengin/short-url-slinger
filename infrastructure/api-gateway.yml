@@ -1,0 +1,33 @@
+# This file defines the API Gateway resource using AWS SAM syntax.
+# It creates the HTTP endpoints that connect the outside world to your Lambda functions.
+
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: >
+  API Gateway resources for the short-url-slinger application.
+
+Resources:
+  # This is the main API Gateway resource that will host our endpoints.
+  ShortUrlApi:
+    Type: AWS::Serverless::Api
+    Properties:
+      Name: ShortUrlApi
+      StageName: Prod
+      # This CORS configuration is crucial for allowing your frontend web application
+      # to communicate with your backend API. It's configured to be open for
+      # development but can be locked down for production.
+      Cors:
+        AllowMethods: "'POST, GET, OPTIONS'"
+        AllowHeaders: "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'"
+        AllowOrigin: "'*'" # For production, you should restrict this to your frontend's domain.
+
+Outputs:
+  # This output will display the URL of your deployed API in the CloudFormation console.
+  ApiEndpoint:
+    Description: "API Gateway endpoint URL for Prod stage"
+    Value: !Sub "https://${ShortUrlApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/"
+  
+  # This new output exposes the ID of the API so other stacks can reference it.
+  ApiId:
+    Description: "The ID of the API Gateway resource"
+    Value: !Ref ShortUrlApi
