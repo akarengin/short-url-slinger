@@ -19,7 +19,8 @@ interface ShortenedURL {
 
 // Define the mutation function outside the component
 const shortenUrlApi = async ({ longUrl, customAlias }: { longUrl: string; customAlias?: string }) => {
-  const response = await fetch('/api/create', {
+  const apiUrl = import.meta.env.VITE_API_URL || '/api';
+  const response = await fetch(`${apiUrl}/create`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
