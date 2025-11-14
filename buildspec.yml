@@ -38,8 +38,7 @@ artifacts:
     - 'infrastructure/**/*'
     # Packaged template file
     - packaged-template.yml
-  base-directory: . # Set base-directory to root to include all artifacts
-  name: short-url-slinger-build-$(date +%Y-%m-%d-%H-%M-%S)
+  base-directory: .
 
 cache:
   paths:
