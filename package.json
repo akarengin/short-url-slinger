@@ -6,7 +6,6 @@
   "scripts": {
     "preinstall": "npm install @rollup/rollup-linux-x64-gnu@latest || true",
     "dev": "vite",
-    "dev:https": "vite --https --host",
     "build": "vite build",
     "build:dev": "vite build --mode development",
     "lint": "eslint .",
