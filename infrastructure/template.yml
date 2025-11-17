@@ -7,7 +7,7 @@ Parameters:
   ShortUrlDomain:
     Type: String
     Description: The custom domain for the shortened URLs (e.g., short.ly).
-    Default: "short.ly"
+    Default: "www.urlcutlabs.site"
 
 Globals:
   Api:
@@ -83,7 +83,7 @@ Resources:
 Outputs:
   ApiEndpoint:
     Description: "API Gateway endpoint URL"
-    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/"
+    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod"
   ApiId:
     Description: "API Gateway ID"
     Value: !Ref ServerlessRestApi
