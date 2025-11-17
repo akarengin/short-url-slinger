@@ -7,9 +7,15 @@ const TABLE_NAME = process.env.URL_MAPPINGS_TABLE!;
 const SHORT_URL_DOMAIN = process.env.SHORT_URL_DOMAIN!;
 const MAX_RETRIES = 3;
 
+const corsHeaders = {
+  'Access-Control-Allow-Origin': 'https://www.urlcutlabs.site',
+  'Access-Control-Allow-Headers': 'Content-Type',
+  'Access-Control-Allow-Methods': 'POST, OPTIONS'
+};
+
 export const handler = async (event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> => {
   if (!event.body) {
-    return { statusCode: 400, body: JSON.stringify({ error: "Invalid request: Missing body" }) };
+    return { statusCode: 400, headers: corsHeaders, body: JSON.stringify({ error: "Invalid request: Missing body" }) };
   }
 
   let longUrl: string | undefined;
@@ -19,26 +25,26 @@ export const handler = async (event: APIGatewayProxyEvent): Promise<APIGatewayPr
     longUrl = body.longUrl;
     customAlias = body.customAlias;
   } catch (error) {
-    return { statusCode: 400, body: JSON.stringify({ error: "Invalid request: Malformed JSON" }) };
+    return { statusCode: 400, headers: corsHeaders, body: JSON.stringify({ error: "Invalid request: Malformed JSON" }) };
   }
 
   if (!longUrl || !/^https?:\/\//.test(longUrl)) {
-    return { statusCode: 400, body: JSON.stringify({ error: "Invalid URL" }) };
+    return { statusCode: 400, headers: corsHeaders, body: JSON.stringify({ error: "Invalid URL" }) };
   }
 
   // If a custom alias is provided, try to use it directly (no retries needed).
   if (customAlias) {
     // It's good practice to add some basic validation for the alias itself.
     if (!/^[a-zA-Z0-9_-]{3,16}$/.test(customAlias)) {
-      return { statusCode: 400, body: JSON.stringify({ error: "Invalid alias. Use 3-16 alphanumeric characters, hyphens, or underscores." }) };
+      return { statusCode: 400, headers: corsHeaders, body: JSON.stringify({ error: "Invalid alias. Use 3-16 alphanumeric characters, hyphens, or underscores." }) };
     }
     try {
       return await createAndSaveLink(longUrl, customAlias);
     } catch (error: any) {
       if (error.name === "ConditionalCheckFailedException") {
-        return { statusCode: 409, body: JSON.stringify({ error: "This custom alias is already taken. Please choose another." }) };
+        return { statusCode: 409, headers: corsHeaders, body: JSON.stringify({ error: "This custom alias is already taken. Please choose another." }) };
       }
-      return { statusCode: 500, body: JSON.stringify({ error: "Internal Server Error" }) };
+      return { statusCode: 500, headers: corsHeaders, body: JSON.stringify({ error: "Internal Server Error" }) };
     }
   }
 
@@ -56,12 +62,12 @@ export const handler = async (event: APIGatewayProxyEvent): Promise<APIGatewayPr
       }
       // For any other unexpected error during the save attempt, fail immediately.
       console.error("Error creating short URL:", error);
-      return { statusCode: 500, body: JSON.stringify({ error: "Internal Server Error" }) };
+      return { statusCode: 500, headers: corsHeaders, body: JSON.stringify({ error: "Internal Server Error" }) };
     }
   }
 
   // If all retries fail
-  return { statusCode: 500, body: JSON.stringify({ error: "Failed to generate a unique short code. Please try again." }) };
+  return { statusCode: 500, headers: corsHeaders, body: JSON.stringify({ error: "Failed to generate a unique short code. Please try again." }) };
 };
 
 /**
@@ -87,6 +93,7 @@ const createAndSaveLink = async (longUrl: string, shortCode: string): Promise<AP
   const protocol = process.env.AWS_SAM_LOCAL ? "http" : "https";
   return {
     statusCode: 200,
+    headers: corsHeaders,
     body: JSON.stringify({
       shortUrl: `${protocol}://${SHORT_URL_DOMAIN}/${shortCode}`,
       shortCode,

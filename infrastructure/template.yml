@@ -14,7 +14,7 @@ Globals:
     Cors:
       AllowMethods: "'POST, GET, OPTIONS'"
       AllowHeaders: "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'"
-      AllowOrigin: "'*'"
+      AllowOrigin: "'https://www.urlcutlabs.site'"
 
 Resources:
   # DynamoDB Table
