@@ -1,0 +1,5 @@
+template-file-path: template.yml
+parameters: {}
+tags:
+  Project: URLShortener
+  ManagedBy: GitSync
