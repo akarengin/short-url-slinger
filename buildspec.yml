@@ -23,12 +23,8 @@ phases:
   post_build:
     commands:
       - echo "Build finished on `date`"
-      - echo "Verifying lambda build output..."
-      - ls -la lambda-functions/dist/
       - echo "Packaging SAM application..."
-      - sam build --template-file infrastructure/template.yml
-      - sam package --template-file .aws-sam/build/template.yaml --s3-bucket $ARTIFACT_BUCKET --output-template-file packaged-template.yml
-      - echo "Syncing frontend to S3..."
+      - sam package --template-file infrastructure/template.yml --s3-bucket $ARTIFACT_BUCKET --output-template-file packaged-template.yml
       - aws s3 sync dist/ s3://$FRONTEND_BUCKET/ --delete
 
 artifacts:

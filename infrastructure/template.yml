@@ -35,7 +35,7 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       FunctionName: createShortUrl
-      CodeUri: lambda-functions/
+      CodeUri: ../lambda-functions/
       Handler: dist/createShortUrl/index.handler
       Runtime: nodejs20.x
       Architectures:
@@ -60,7 +60,7 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       FunctionName: redirectUrl
-      CodeUri: lambda-functions/
+      CodeUri: ../lambda-functions/
       Handler: dist/redirectUrl/index.handler
       Runtime: nodejs20.x
       Architectures:
