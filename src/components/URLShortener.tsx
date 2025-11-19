@@ -121,20 +121,6 @@ export const URLShortener = () => {
     }
   };
 
-  const simulateClick = (id: string) => {
-    setShortenedUrls(prev => 
-      prev.map(url => 
-        url.id === id 
-          ? { ...url, clicks: url.clicks + 1 }
-          : url
-      )
-    );
-    toast({
-      title: "Link Clicked",
-      description: "Analytics updated",
-    });
-  };
-
   return (
     <div className="min-h-screen bg-gradient-primary">
       <div className="container mx-auto px-4 py-8">
@@ -236,14 +222,16 @@ export const URLShortener = () => {
                       >
                         <Copy className="h-4 w-4" />
                       </Button>
-                      <Button
-                        variant="outline"
-                        size="sm"
-                        onClick={() => simulateClick(item.id)}
-                        className="bg-background/50 hover:bg-primary/20"
-                      >
-                        <ExternalLink className="h-4 w-4" />
-                      </Button>
+                      {/* This is the corrected implementation */}
+                      <a href={item.shortUrl} target="_blank" rel="noopener noreferrer">
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          className="bg-background/50 hover:bg-primary/20"
+                        >
+                          <ExternalLink className="h-4 w-4" />
+                        </Button>
+                      </a>
                       <Button
                         variant="outline"
                         size="sm"
