@@ -25,6 +25,8 @@ phases:
       - echo "Build finished on `date`"
       - echo "Packaging SAM application..."
       - sam package --template-file template.yml --s3-bucket $ARTIFACT_BUCKET --output-template-file packaged-template.yml
+      - echo "Deploying SAM application..."
+      - aws cloudformation deploy --template-file packaged-template.yml --stack-name sam-app --capabilities CAPABILITY_IAM
       - echo "Syncing frontend to S3..."
       - aws s3 sync dist/ s3://$FRONTEND_BUCKET/ --delete
 
