@@ -6,8 +6,8 @@ Description: >
 Parameters:
   ShortUrlDomain:
     Type: String
-    Description: The custom domain for the shortened URLs (e.g., short.ly).
-    Default: "www.urlcutlabs.site"
+    Description: The custom domain for the shortened URLs (e.g., s.urlcutlabs.site).
+    Default: "s.urlcutlabs.site"
 
 Globals:
   Api:
