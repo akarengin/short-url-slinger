@@ -74,6 +74,12 @@ export const URLShortener = () => {
     },
   });
 
+  const incrementClick = (shortCode: string) => {
+    setShortenedUrls(prev => prev.map(url => 
+      url.shortCode === shortCode ? { ...url, clicks: url.clicks + 1 } : url
+    ));
+  };
+
   const isValidUrl = (string: string) => {
     try {
       new URL(string);
@@ -222,12 +228,12 @@ export const URLShortener = () => {
                       >
                         <Copy className="h-4 w-4" />
                       </Button>
-                      {/* This is the corrected implementation */}
                       <a href={item.shortUrl} target="_blank" rel="noopener noreferrer">
                         <Button
                           variant="outline"
                           size="sm"
                           className="bg-background/50 hover:bg-primary/20"
+                          onClick={() => incrementClick(item.shortCode)}
                         >
                           <ExternalLink className="h-4 w-4" />
                         </Button>
