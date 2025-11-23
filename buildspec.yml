@@ -24,17 +24,18 @@ phases:
     commands:
       - echo "Build finished on `date`"
       - echo "Packaging SAM application..."
-      - sam package --template-file infrastructure/template.yml --s3-bucket $ARTIFACT_BUCKET --output-template-file packaged-template.yml
+      - sam package --template-file template.yml --s3-bucket $ARTIFACT_BUCKET --output-template-file packaged-template.yml
+      - echo "Deploying SAM application..."
+      - aws cloudformation deploy --template-file packaged-template.yml --stack-name short-url-slinger-stack --capabilities CAPABILITY_IAM
+      - echo "Syncing frontend to S3..."
       - aws s3 sync dist/ s3://$FRONTEND_BUCKET/ --delete
 
 artifacts:
   files:
     # Frontend application
     - 'dist/**/*'
-    # Backend Lambda functions (adjust the path to your compiled code)
+    # Backend Lambda functions
     - 'lambda-functions/dist/**/*'
-    # Infrastructure as Code templates
-    - 'infrastructure/**/*'
     # Packaged template file
     - packaged-template.yml
   base-directory: .
