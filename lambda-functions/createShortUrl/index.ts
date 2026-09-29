@@ -8,7 +8,7 @@ const SHORT_URL_DOMAIN = process.env.SHORT_URL_DOMAIN!;
 const MAX_RETRIES = 3;
 
 const corsHeaders = {
-  'Access-Control-Allow-Origin': 'https://www.urlcutlabs.site',
+  'Access-Control-Allow-Origin': 'https://www.urlcutlabs.store',
   'Access-Control-Allow-Headers': 'Content-Type',
   'Access-Control-Allow-Methods': 'POST, OPTIONS'
 };

@@ -6,15 +6,15 @@ Description: >
 Parameters:
   ShortUrlDomain:
     Type: String
-    Description: The custom domain for the shortened URLs (e.g., s.urlcutlabs.site).
-    Default: "s.urlcutlabs.site"
+    Description: The custom domain for the shortened URLs (e.g., s.urlcutlabs.store).
+    Default: "s.urlcutlabs.store"
 
 Globals:
   Api:
     Cors:
       AllowMethods: "'POST, GET, OPTIONS'"
       AllowHeaders: "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'"
-      AllowOrigin: "'https://www.urlcutlabs.site'"
+      AllowOrigin: "'https://www.urlcutlabs.store'"
 
 Resources:
   # DynamoDB Table
