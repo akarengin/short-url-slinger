@@ -4,7 +4,7 @@
 
 ## Project info
 
-This repository implements a URL shortening service that creates and manages short links for long URLs. Features include creating short aliases, redirect handling, basic analytics for clicks, and a simple admin interface to manage links. The implementation uses a TypeScript React frontend and an API backend.
+This repository implements a URL shortening service that creates and manages short links for long URLs. Features include the ability to create short aliases, handle redirection, and display click counts. The implementation uses a TypeScript React frontend and an API backend.
 
 ## How can I edit this code?
 
@@ -61,4 +61,3 @@ This project is built with:
 This project is deployed on AWS and Netlify!
 
 - **AWS deployment:** [https://www.urlcutlabs.site/](https://www.urlcutlabs.site/)
-- **Netlify deployment:** [https://short-url-slinger.netlify.app/](https://short-url-slinger.netlify.app/)
