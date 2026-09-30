@@ -43,9 +43,9 @@ export const handler = async (event: APIGatewayProxyEvent): Promise<APIGatewayPr
     };
     ddbClient.send(new UpdateItemCommand(updateParams)).catch(console.error);
 
-    // Issue a permanent redirect.
+    // Issue a temporary redirect.
     return {
-      statusCode: 301,
+      statusCode: 302,
       headers: {
         Location: longUrl,
       },
