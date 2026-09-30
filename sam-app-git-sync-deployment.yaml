@@ -1,4 +1,4 @@
 template-file-path: template.yml
 parameters:
-  ShortUrlDomain: https://www.urlcutlabs.site
-tags: {}
+  ShortUrlDomain: https://www.urlcutlabs.store
+tags: { }
